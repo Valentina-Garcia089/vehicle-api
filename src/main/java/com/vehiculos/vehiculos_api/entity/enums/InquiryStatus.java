@@ -1,0 +1,8 @@
+package com.vehiculos.vehiculos_api.entity.enums;
+
+public enum InquiryStatus {
+    PENDIENTE,
+    CONTACTADO,
+    RECHAZADO,
+    CERRADO
+}
