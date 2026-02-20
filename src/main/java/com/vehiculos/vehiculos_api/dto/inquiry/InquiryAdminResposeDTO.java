@@ -1,20 +1,20 @@
 package com.vehiculos.vehiculos_api.dto.inquiry;
 
 import com.vehiculos.vehiculos_api.dto.user.UserResponseDTO;
-import com.vehiculos.vehiculos_api.dto.vehicle.VehicleResponseDTO;
+import com.vehiculos.vehiculos_api.dto.vehicle.VehicleSummaryResponseDTO;
 import com.vehiculos.vehiculos_api.entity.enums.InquiryStatus;
 
 import java.time.LocalDateTime;
 
 public class InquiryAdminResposeDTO {
     private Long id;
-    private VehicleResponseDTO vehicle;
+    private VehicleSummaryResponseDTO vehicle; //MODO DE LISTA
     private UserResponseDTO user;
     private String comentarios;
     private InquiryStatus estado;
     private LocalDateTime fechaCreacion;
 
-    public InquiryAdminResposeDTO(Long id, VehicleResponseDTO vehicle, UserResponseDTO user, String comentarios, InquiryStatus estado, LocalDateTime fechaCreacion) {
+    public InquiryAdminResposeDTO(Long id, VehicleSummaryResponseDTO vehicle, UserResponseDTO user, String comentarios, InquiryStatus estado, LocalDateTime fechaCreacion) {
         this.id = id;
         this.vehicle = vehicle;
         this.user = user;
@@ -28,7 +28,7 @@ public class InquiryAdminResposeDTO {
         return id;
     }
 
-    public VehicleResponseDTO getVehicle() {
+    public VehicleSummaryResponseDTO getVehicle() {
         return vehicle;
     }
 

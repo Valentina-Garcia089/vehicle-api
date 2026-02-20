@@ -1,10 +1,11 @@
 package com.vehiculos.vehiculos_api.dto.inquiry;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 public class InquiryCreateRequestDTO {
-    @NotBlank
+    @NotNull
     @Positive
     private Long vehicleId;
 

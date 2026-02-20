@@ -68,4 +68,12 @@ public class Inquiry {
     public void setFechaCreacion(LocalDateTime fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
+
+    public InquiryStatus getEstado() {
+        return estado;
+    }
+
+    public void setEstado(InquiryStatus estado) {
+        this.estado = estado;
+    }
 }

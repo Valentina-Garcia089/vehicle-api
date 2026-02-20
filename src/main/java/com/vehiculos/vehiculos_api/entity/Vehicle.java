@@ -133,4 +133,12 @@ public class Vehicle {
     public void setFechaPublicacion(LocalDateTime fechaPublicacion) {
         this.fechaPublicacion = fechaPublicacion;
     }
+
+    public VehicleFuel getGasolina() {
+        return gasolina;
+    }
+
+    public void setGasolina(VehicleFuel gasolina) {
+        this.gasolina = gasolina;
+    }
 }

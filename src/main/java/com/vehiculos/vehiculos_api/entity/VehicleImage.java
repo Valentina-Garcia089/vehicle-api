@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "vehicle_images")
-public class VehicleImages {
+public class VehicleImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,12 +12,12 @@ public class VehicleImages {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vehicle_id", nullable = false)
-    private Vehicle vehicle;
+    private Vehicle vehicle; //solo indicar a qué vehiculo pertenece esta img
 
-    @Column(nullable = false)
-    private String image_url;
+    @Column(name = "image_url", nullable = false)
+    private String imageUrl;
 
-    public VehicleImages (){}
+    public VehicleImage(){}
 
 
     public Long getId() {
@@ -32,11 +32,11 @@ public class VehicleImages {
         this.vehicle = vehicle;
     }
 
-    public String getImage_url() {
-        return image_url;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
+    public void setImageUrl(String image_url) {
+        this.imageUrl = image_url;
     }
 }
