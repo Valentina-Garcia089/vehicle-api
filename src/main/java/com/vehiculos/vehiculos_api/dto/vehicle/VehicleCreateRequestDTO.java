@@ -1,58 +1,53 @@
-package com.vehiculos.vehiculos_api.entity;
+package com.vehiculos.vehiculos_api.dto.vehicle;
 
 import com.vehiculos.vehiculos_api.entity.enums.VehicleFuel;
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "vehicles")
-public class Vehicle {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
+public class VehicleCreateRequestDTO {
+    @NotBlank
     private String marca;
 
-    @Column(nullable = false)
+    @NotBlank
     private String modelo;
 
-    @Column(nullable = false)
+    @NotBlank
     private String color;
 
-    @Column(nullable = false)
+    @NotNull
+    @Positive
     private int year;
 
-    @Column(nullable = false)
+    @NotNull
+    @Positive
     private BigDecimal precio;
 
-    @Column(nullable = false)
+    @NotNull
+    @Positive
     private BigDecimal kilometraje;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @NotBlank
     private VehicleFuel gasolina;
+
 
     private String descripcion;
 
-    @Column(nullable = false)
+    @NotBlank
     private boolean disponible;
 
-    @Column(name = "image_url", nullable = false)
+    @NotBlank
     private String imageUrl;
 
-    @Column(name = "fecha_publicacion", nullable = false)
+    @NotBlank
     private LocalDateTime fechaPublicacion;
 
-    public Vehicle () {}
 
+    public VehicleCreateRequestDTO () {}
 
-    public Long getId() {
-        return id;
-    }
 
     public String getMarca() {
         return marca;
@@ -100,6 +95,14 @@ public class Vehicle {
 
     public void setKilometraje(BigDecimal kilometraje) {
         this.kilometraje = kilometraje;
+    }
+
+    public VehicleFuel getGasolina() {
+        return gasolina;
+    }
+
+    public void setGasolina(VehicleFuel gasolina) {
+        this.gasolina = gasolina;
     }
 
     public String getDescripcion() {

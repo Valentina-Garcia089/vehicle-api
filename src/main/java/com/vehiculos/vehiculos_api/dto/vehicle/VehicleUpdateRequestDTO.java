@@ -1,58 +1,32 @@
-package com.vehiculos.vehiculos_api.entity;
+package com.vehiculos.vehiculos_api.dto.vehicle;
 
 import com.vehiculos.vehiculos_api.entity.enums.VehicleFuel;
-import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "vehicles")
-public class Vehicle {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
+public class VehicleUpdateRequestDTO {
     private String marca;
-
-    @Column(nullable = false)
     private String modelo;
-
-    @Column(nullable = false)
     private String color;
 
-    @Column(nullable = false)
+    @Positive
     private int year;
 
-    @Column(nullable = false)
+    @Positive
     private BigDecimal precio;
 
-    @Column(nullable = false)
+
     private BigDecimal kilometraje;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private VehicleFuel gasolina;
-
     private String descripcion;
-
-    @Column(nullable = false)
     private boolean disponible;
-
-    @Column(name = "image_url", nullable = false)
     private String imageUrl;
-
-    @Column(name = "fecha_publicacion", nullable = false)
     private LocalDateTime fechaPublicacion;
 
-    public Vehicle () {}
+    public VehicleUpdateRequestDTO () {}
 
-
-    public Long getId() {
-        return id;
-    }
 
     public String getMarca() {
         return marca;
@@ -100,6 +74,14 @@ public class Vehicle {
 
     public void setKilometraje(BigDecimal kilometraje) {
         this.kilometraje = kilometraje;
+    }
+
+    public VehicleFuel getGasolina() {
+        return gasolina;
+    }
+
+    public void setGasolina(VehicleFuel gasolina) {
+        this.gasolina = gasolina;
     }
 
     public String getDescripcion() {

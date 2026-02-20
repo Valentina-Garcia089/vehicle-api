@@ -7,14 +7,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 
 public interface InquiryRepository extends JpaRepository<Inquiry, Long> {
     //consultar todas mis inquiries - USER
     @Query("SELECT i " +
             "FROM Inquiry i " +
-            "JOIN FETCH i.vehicle" +
+            "JOIN FETCH i.vehicle " +
             "WHERE i.user.id = :userId")
     Page<Inquiry> findAllInquiriesWithVehicle(@Param("userId") Long userId,Pageable pageable);
 
@@ -23,8 +22,8 @@ public interface InquiryRepository extends JpaRepository<Inquiry, Long> {
     @Query("SELECT i " +
             "FROM Inquiry i " +
             "JOIN FETCH i.user " +
-            "JOIN FECTCH i.vehicle ")
-    Page<User> findAllWithUserAndVehicle(Pageable pageable);
+            "JOIN FETCH i.vehicle ")
+    Page<Inquiry> findAllWithUserAndVehicle(Pageable pageable);
 
 
     //consultar todas las inquiries fitradas por su estado - ADMIN
@@ -33,5 +32,5 @@ public interface InquiryRepository extends JpaRepository<Inquiry, Long> {
             "JOIN FETCH i.user " +
             "JOIN FETCH i.vehicle " +
             "WHERE i.estado = :estado")
-    Page<User> findByStatus(@Param("estado") InquiryStatus estado, Pageable pageable);
+    Page<Inquiry> findByStatus(@Param("estado") InquiryStatus estado, Pageable pageable);
 }
