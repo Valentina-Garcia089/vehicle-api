@@ -1,9 +1,7 @@
-package com.vehiculos.vehiculos_api.dto.user;
+package com.vehiculos.vehiculos_api.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-
-import java.security.PrivateKey;
 
 public class UserRegisterRequestDTO {
     @NotBlank

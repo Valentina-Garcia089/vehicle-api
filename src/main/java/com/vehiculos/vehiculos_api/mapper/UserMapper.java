@@ -1,6 +1,6 @@
 package com.vehiculos.vehiculos_api.mapper;
 
-import com.vehiculos.vehiculos_api.dto.user.UserRegisterRequestDTO;
+import com.vehiculos.vehiculos_api.dto.auth.UserRegisterRequestDTO;
 import com.vehiculos.vehiculos_api.dto.user.UserResponseDTO;
 import com.vehiculos.vehiculos_api.dto.user.UserUpdateRequestDTO;
 import com.vehiculos.vehiculos_api.entity.User;
