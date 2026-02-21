@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     //lista de vehiculos - PUBLICO
-    Page<Vehicle> findAll(Pageable pageable);
+    Page<Vehicle> findAllvehicles(Pageable pageable);
 
     //filtrar vehiculos por marca - PUBLICO
     Page<Vehicle> findByMarca(String marca, Pageable pageable);
@@ -16,4 +16,6 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
     //filtrar vehiculo por disponibilidad - ADMIN
     Page<Vehicle> findByDisponibleTrue(Pageable pageable);
+
+    boolean existsById(String email);
 }
