@@ -18,6 +18,7 @@ public interface InquiryRepository extends JpaRepository<Inquiry, Long> {
     Page<Inquiry> findAllInquiriesWithVehicle(@Param("userId") Long userId,Pageable pageable);
 
 
+
     //consultar todas las inquiries - ADMIN con todas las relaciones
     @Query("SELECT i " +
             "FROM Inquiry i " +

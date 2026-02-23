@@ -90,6 +90,7 @@ public class VehicleServiceImpl implements VehicleService {
 
 
 
+    
 
     //llamado desde VehicleImageService
     public Vehicle findEntityById(Long id) {

@@ -14,7 +14,9 @@ public class InquiryAdminResposeDTO {
     private InquiryStatus estado;
     private LocalDateTime fechaCreacion;
 
-    public InquiryAdminResposeDTO(Long id, VehicleSummaryResponseDTO vehicle, UserResponseDTO user, String comentarios, InquiryStatus estado, LocalDateTime fechaCreacion) {
+    public InquiryAdminResposeDTO(Long id, VehicleSummaryResponseDTO vehicle,
+                                  UserResponseDTO user, String comentarios,
+                                  InquiryStatus estado, LocalDateTime fechaCreacion) {
         this.id = id;
         this.vehicle = vehicle;
         this.user = user;
