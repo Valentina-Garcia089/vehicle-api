@@ -2,6 +2,9 @@ package com.vehiculos.vehiculos_api.entity;
 
 import com.vehiculos.vehiculos_api.entity.enums.InquiryStatus;
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,14 +26,20 @@ public class Inquiry {
     private String comentarios;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
+    @Column(nullable = false, columnDefinition = "inquiry_status")
     private InquiryStatus estado;
 
-    @Column(name = "fecha_creacion" , updatable = false, insertable = false, nullable = false)
+    @Column(name = "fecha_creacion" , updatable = false, nullable = false)
     private LocalDateTime fechaCreacion;
 
 
     public Inquiry () {}
+
+    @PrePersist
+    protected void onCreate() {
+        this.fechaCreacion = LocalDateTime.now();
+    }
 
 
     public Long getId() {

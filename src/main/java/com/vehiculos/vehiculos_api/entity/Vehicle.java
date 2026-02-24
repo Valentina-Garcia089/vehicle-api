@@ -2,9 +2,13 @@ package com.vehiculos.vehiculos_api.entity;
 
 import com.vehiculos.vehiculos_api.entity.enums.VehicleFuel;
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "vehicles")
@@ -33,7 +37,8 @@ public class Vehicle {
     private BigDecimal kilometraje;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
+    @Column(nullable = false, columnDefinition = "vehicle_fuel")
     private VehicleFuel gasolina;
 
     private String descripcion;
@@ -46,6 +51,9 @@ public class Vehicle {
 
     @Column(name = "fecha_publicacion", nullable = false)
     private LocalDateTime fechaPublicacion;
+
+    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<VehicleImage> imagenes = new ArrayList<>();
 
     public Vehicle () {}
 
@@ -140,5 +148,14 @@ public class Vehicle {
 
     public void setGasolina(VehicleFuel gasolina) {
         this.gasolina = gasolina;
+    }
+
+    public List<VehicleImage> getImagenes() {
+        return imagenes;
+    }
+
+    public void addImage(VehicleImage imagen) {
+        imagenes.add(imagen);
+        imagen.setVehicle(this);
     }
 }

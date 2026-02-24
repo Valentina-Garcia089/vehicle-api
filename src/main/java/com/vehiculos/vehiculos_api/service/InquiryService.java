@@ -13,7 +13,7 @@ public interface InquiryService{
     //USER (el userId es mientras lo cambio a autenticación)
     InquiryResponseDTO createInquiry (InquiryCreateRequestDTO dto, Long userId);
     Page<InquiryResponseDTO> getAllInquiries (Pageable pageable, Long userId);
-    InquiryResponseDTO getInquiryById (Long inquiryId);
+    InquiryResponseDTO getInquiryById (Long inquiryId, Long userId);
 
     //ADMIN
     Page<InquiryAdminResposeDTO> getAllInquiriesAdmin (Pageable pageable);

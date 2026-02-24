@@ -6,16 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
-    //lista de vehiculos - PUBLICO
-    Page<Vehicle> findAllvehicles(Pageable pageable);
+    //Mostrar todos los vehiculos por disponibilidad - USERS/PUBLIC
+    Page<Vehicle> findByDisponibleTrue(Pageable pageable);
 
     //filtrar vehiculos por marca - PUBLICO
-    Page<Vehicle> findByMarca(String marca, Pageable pageable);
+    Page<Vehicle> findByMarcaAndDisponibleTrue(String marca, Pageable pageable);
 
     //ver detalles de un vehiculo especifico por id - publico - ya existe findById()
 
-    //filtrar vehiculo por disponibilidad - ADMIN
-    Page<Vehicle> findByDisponibleTrue(Pageable pageable);
-
-    boolean existsById(String email);
 }

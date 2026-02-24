@@ -3,7 +3,6 @@ package com.vehiculos.vehiculos_api.service.impl;
 import com.vehiculos.vehiculos_api.dto.user.UserResponseDTO;
 import com.vehiculos.vehiculos_api.dto.user.UserUpdateRequestDTO;
 import com.vehiculos.vehiculos_api.entity.User;
-import com.vehiculos.vehiculos_api.entity.Vehicle;
 import com.vehiculos.vehiculos_api.exception.ResourceNotFoundException;
 import com.vehiculos.vehiculos_api.mapper.UserMapper;
 import com.vehiculos.vehiculos_api.repository.UserRepository;
@@ -42,6 +41,7 @@ public class UserServiceImpl implements UserService {
 
 
 
+
     //USER
 
     public UserResponseDTO getUserById (Long userId){
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
     //TODO- ELIMINAR ESTO CUANDO SE USE EL TOKEN
     public User findEntityById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Vehículo con ID " + id + " no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario" +id+ " no encontrado"));
     }
 
     public boolean existsById(Long id) {

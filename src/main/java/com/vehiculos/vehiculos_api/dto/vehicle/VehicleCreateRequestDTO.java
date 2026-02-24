@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class VehicleCreateRequestDTO {
     @NotBlank
@@ -44,6 +45,9 @@ public class VehicleCreateRequestDTO {
 
     @NotBlank
     private LocalDateTime fechaPublicacion;
+
+    @NotNull
+    private List<String> UrlsGaleria;
 
 
     public VehicleCreateRequestDTO () {}
@@ -135,5 +139,13 @@ public class VehicleCreateRequestDTO {
 
     public void setFechaPublicacion(LocalDateTime fechaPublicacion) {
         this.fechaPublicacion = fechaPublicacion;
+    }
+
+    public List<String> getUrlsGaleria() {
+        return UrlsGaleria;
+    }
+
+    public void setUrlsGaleria(List<String> urlsGaleria) {
+        UrlsGaleria = urlsGaleria;
     }
 }

@@ -17,12 +17,12 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
     private final UserServiceImpl userService;
     private final UserMapper userMapper;
-    private final PasswordEncoder passwordEncoder;
+    //private final PasswordEncoder passwordEncoder;
 
-    public AuthServiceImpl(UserServiceImpl userService, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+    public AuthServiceImpl(UserServiceImpl userService, UserMapper userMapper/*,PasswordEncoder passwordEncoder*/) {
         this.userService = userService;
         this.userMapper = userMapper;
-        this.passwordEncoder = passwordEncoder;
+        //this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -31,7 +31,8 @@ public class AuthServiceImpl implements AuthService {
             throw new DuplicatedEmailException("Email "+dto.getEmail()+" duplicado");
 
         User user = userMapper.toEntity(dto);
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        //user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setPassword(dto.getPassword());
         user.setRol(UserRole.USER);
         User savedUser = userService.saveUser(user); //REVISAR ESTO PORQUE NO SÉ SI LO QUE RECIBE DEBERÍA SER DE TIPO USER
 
@@ -47,9 +48,9 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponse login(LoginRequest dto) {
         User user = userService.getUserByEmail(dto.getEmail());
 
-        if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
+        /*if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("Email o contraseña incorrectos");
-        }
+        }*/
 
         //TODO: generar el token con JWT
 

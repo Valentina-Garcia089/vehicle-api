@@ -1,9 +1,11 @@
 package com.vehiculos.vehiculos_api.dto.vehicle;
 
+import com.vehiculos.vehiculos_api.dto.vehicleImages.VehicleImageResponseDTO;
 import com.vehiculos.vehiculos_api.entity.enums.VehicleFuel;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class VehicleResponseDTO {
     private Long id;
@@ -18,11 +20,13 @@ public class VehicleResponseDTO {
     private boolean disponible;
     private String imageUrl;
     private LocalDateTime fechaPublicacion;
+    private List<VehicleImageResponseDTO> imagenes;
 
     public VehicleResponseDTO(Long id, String marca, String modelo, String color, int year,
                               BigDecimal precio, BigDecimal kilometraje, VehicleFuel gasolina,
                               String descripcion, boolean disponible, String imageUrl,
-                              LocalDateTime fechaPublicacion) {
+                              LocalDateTime fechaPublicacion,
+                              List<VehicleImageResponseDTO> imagenes) {
         this.id = id;
         this.marca = marca;
         this.modelo = modelo;
@@ -35,6 +39,7 @@ public class VehicleResponseDTO {
         this.disponible = disponible;
         this.imageUrl = imageUrl;
         this.fechaPublicacion = fechaPublicacion;
+        this.imagenes = imagenes;
     }
 
 
@@ -84,5 +89,9 @@ public class VehicleResponseDTO {
 
     public LocalDateTime getFechaPublicacion() {
         return fechaPublicacion;
+    }
+
+    public List<VehicleImageResponseDTO> getImagenes() {
+        return imagenes;
     }
 }

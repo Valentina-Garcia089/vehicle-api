@@ -14,7 +14,9 @@ import com.vehiculos.vehiculos_api.repository.InquiryRepository;
 import com.vehiculos.vehiculos_api.service.InquiryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
+@Service
 public class InquiryServiceImpl implements InquiryService {
     private final InquiryRepository inquiryRepository;
     private final InquiryMapper inquiryMapper;
@@ -32,6 +34,7 @@ public class InquiryServiceImpl implements InquiryService {
     }
 
 
+    //USER
     //TODO - debe asociarse al contexto del usuario con el contexto de seguridad
     public InquiryResponseDTO createInquiry (InquiryCreateRequestDTO dto, Long userId){
         User user = userService.findEntityById(userId);
@@ -64,10 +67,13 @@ public class InquiryServiceImpl implements InquiryService {
     }
 
 
-    public InquiryResponseDTO getInquiryById (Long inquiryId){
+    public InquiryResponseDTO getInquiryById (Long inquiryId, Long userId){
         Inquiry inquiry = inquiryRepository.findById(inquiryId)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Consulta "+inquiryId+" no encontrada"));
+
+        if(!inquiry.getUser().getId().equals(userId))
+            throw new RuntimeException("No tiene autorización para ver esto");
 
         return inquiryMapper.toResponse(inquiry);
     }
@@ -83,7 +89,8 @@ public class InquiryServiceImpl implements InquiryService {
     }
 
 
-    public Page<InquiryAdminResposeDTO> getInquiriesByStatus (InquiryStatus estado, Pageable pageable){
+    public Page<InquiryAdminResposeDTO> getInquiriesByStatus (InquiryStatus estado,
+                                                              Pageable pageable){
         Page<Inquiry> inquiryPage = inquiryRepository.findByStatus(estado, pageable);
 
         return inquiryPage.map(inquiryMapper::toAdminResponse);

@@ -3,6 +3,8 @@ package com.vehiculos.vehiculos_api.entity;
 import com.vehiculos.vehiculos_api.entity.enums.UserRole;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Columns;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 @Entity
 @Table(name = "users")
@@ -27,7 +29,8 @@ public class User {
     private String celular;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
+    @Column(nullable = false, columnDefinition = "user_role")
     private UserRole rol;
 
     public User (){}
