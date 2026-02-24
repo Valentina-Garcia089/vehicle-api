@@ -9,6 +9,7 @@ import com.vehiculos.vehiculos_api.entity.User;
 import com.vehiculos.vehiculos_api.entity.Vehicle;
 import com.vehiculos.vehiculos_api.entity.enums.InquiryStatus;
 import com.vehiculos.vehiculos_api.exception.ResourceNotFoundException;
+import com.vehiculos.vehiculos_api.exception.UnauthorizedAccessException;
 import com.vehiculos.vehiculos_api.mapper.InquiryMapper;
 import com.vehiculos.vehiculos_api.repository.InquiryRepository;
 import com.vehiculos.vehiculos_api.repository.UserRepository;
@@ -35,7 +36,7 @@ public class InquiryServiceImpl implements InquiryService {
     }
 
     //USER
-    //TODO - debe asociarse al contexto del usuario con el contexto de seguridad
+
     public InquiryResponseDTO createInquiry (InquiryCreateRequestDTO dto){
         User user = userService.getAuthenticatedUserEntity();
 
@@ -51,11 +52,7 @@ public class InquiryServiceImpl implements InquiryService {
         return inquiryMapper.toResponse(saved);
     }
 
-
-    /*
-        TODO - el id del usuario debe obtenerse del contexto de seguridad porque el usuario ya
-        está autenticado
-    */
+    
     public Page<InquiryResponseDTO> getAllInquiries (Pageable pageable){
         User user = userService.getAuthenticatedUserEntity();
 
@@ -74,7 +71,8 @@ public class InquiryServiceImpl implements InquiryService {
 
         //si pertenece al usuario del token??
         if(!inquiry.getUser().getId().equals(user.getId()))
-            throw new RuntimeException("No tiene autorización para ver esto");
+            throw new UnauthorizedAccessException(
+                    "No tiene permiso para acceder a esta consulta");
 
         return inquiryMapper.toResponse(inquiry);
     }

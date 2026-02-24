@@ -36,7 +36,7 @@ public class InquiryController {
     }
 
 
-    @PostMapping("/users/{userId}")
+    @PostMapping
     public ResponseEntity<InquiryResponseDTO> createInquiry (
             @Valid @RequestBody InquiryCreateRequestDTO dto){
 
@@ -76,5 +76,4 @@ public class InquiryController {
 
         return ResponseEntity.ok(inquiryService.updateInquiryStatus(inquiryId, dto));
     }
-
 }

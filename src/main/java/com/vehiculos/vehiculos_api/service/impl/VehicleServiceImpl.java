@@ -107,10 +107,4 @@ public class VehicleServiceImpl implements VehicleService {
         return vehicleRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Vehículo con ID " + id + " no encontrado"));
     }
-
-
-
-    public boolean existsById(Long vehicleId) {
-        return vehicleRepository.existsById(vehicleId);
-    }
 }

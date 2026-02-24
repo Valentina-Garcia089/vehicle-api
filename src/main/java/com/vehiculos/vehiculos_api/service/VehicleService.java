@@ -23,5 +23,4 @@ public interface VehicleService {
 
     //llamado desde VehicleImageService
     Vehicle findEntityById(Long id);
-    boolean existsById(Long vehicleId);
 }

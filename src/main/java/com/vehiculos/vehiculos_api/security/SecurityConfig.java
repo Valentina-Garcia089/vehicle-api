@@ -34,6 +34,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll() //login y registro son publicos
                         .requestMatchers(HttpMethod.GET, "/api/vehicles/**").permitAll() //lista de vehículos es publica
+                        .requestMatchers(HttpMethod.POST, "/api/vehicles/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/vehicles/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/vehicles/**").hasRole("ADMIN")
+                        .requestMatchers("/api/inquiries/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated() //demás endpoints requieren autenticación
                 )
                 .sessionManagement(session -> session

@@ -28,23 +28,19 @@ public class VehicleCreateRequestDTO {
     private BigDecimal precio;
 
     @NotNull
-    @Positive
     private BigDecimal kilometraje;
 
-    @NotBlank
+    @NotNull
     private VehicleFuel gasolina;
 
 
     private String descripcion;
 
-    @NotBlank
+    @NotNull
     private boolean disponible;
 
     @NotBlank
     private String imageUrl;
-
-    @NotBlank
-    private LocalDateTime fechaPublicacion;
 
     @NotNull
     private List<String> UrlsGaleria;
@@ -131,14 +127,6 @@ public class VehicleCreateRequestDTO {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public LocalDateTime getFechaPublicacion() {
-        return fechaPublicacion;
-    }
-
-    public void setFechaPublicacion(LocalDateTime fechaPublicacion) {
-        this.fechaPublicacion = fechaPublicacion;
     }
 
     public List<String> getUrlsGaleria() {

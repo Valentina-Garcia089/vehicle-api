@@ -49,13 +49,18 @@ public class Vehicle {
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
-    @Column(name = "fecha_publicacion", nullable = false)
+    @Column(name = "fecha_publicacion", updatable = false, nullable = false)
     private LocalDateTime fechaPublicacion;
 
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VehicleImage> imagenes = new ArrayList<>();
 
     public Vehicle () {}
+
+    @PrePersist
+    protected void onCreate() {
+        this.fechaPublicacion = LocalDateTime.now();
+    }
 
 
     public Long getId() {
