@@ -12,7 +12,8 @@ public interface UserService {
     User getUserByEmail (String email); //login
 
     //USER
-    UserResponseDTO getUserById (Long userId); //perfil propio
-    UserResponseDTO updateUser (Long userId, UserUpdateRequestDTO dto);
+    UserResponseDTO getUserById (); //perfil propio
+    UserResponseDTO updateUser (UserUpdateRequestDTO dto);
 
+    User getAuthenticatedUserEntity();
 }

@@ -6,6 +6,7 @@ import com.vehiculos.vehiculos_api.dto.inquiry.InquiryResponseDTO;
 import com.vehiculos.vehiculos_api.dto.inquiry.InquiryStatusUpdateRequesDTO;
 import com.vehiculos.vehiculos_api.entity.enums.InquiryStatus;
 import com.vehiculos.vehiculos_api.service.InquiryService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -24,27 +25,24 @@ public class InquiryController {
 
     //USER
 
-    @GetMapping("/users/{userId}/my-inquiries")
-    public ResponseEntity<Page<InquiryResponseDTO>> getAllInquiries (
-            Pageable pageable, @PathVariable Long userId){
-
-        return ResponseEntity.ok(inquiryService.getAllInquiries(pageable, userId));
+    @GetMapping("/users/my-inquiries")
+    public ResponseEntity<Page<InquiryResponseDTO>> getAllInquiries (Pageable pageable){
+        return ResponseEntity.ok(inquiryService.getAllInquiries(pageable));
     }
 
-    @GetMapping("/users/{userId}/my-inquiries/{inquiryId}")
-    public ResponseEntity<InquiryResponseDTO> getInquiryById (
-            @PathVariable Long inquiryId, @PathVariable Long userId){
-        return ResponseEntity.ok(inquiryService.getInquiryById(inquiryId, userId));
+    @GetMapping("/users/my-inquiries/{inquiryId}")
+    public ResponseEntity<InquiryResponseDTO> getInquiryById (@PathVariable Long inquiryId){
+        return ResponseEntity.ok(inquiryService.getInquiryById(inquiryId));
     }
 
 
     @PostMapping("/users/{userId}")
     public ResponseEntity<InquiryResponseDTO> createInquiry (
-            @RequestBody InquiryCreateRequestDTO dto, @PathVariable Long userId){
+            @Valid @RequestBody InquiryCreateRequestDTO dto){
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(inquiryService.createInquiry(dto, userId));
+                .body(inquiryService.createInquiry(dto));
     }
 
 
@@ -74,7 +72,7 @@ public class InquiryController {
 
     @PutMapping("/admin/{inquiryId}/status")
     public ResponseEntity<InquiryAdminResposeDTO> updateInquiryStatus (
-            @PathVariable Long inquiryId, @RequestBody InquiryStatusUpdateRequesDTO dto){
+            @PathVariable Long inquiryId, @Valid @RequestBody InquiryStatusUpdateRequesDTO dto){
 
         return ResponseEntity.ok(inquiryService.updateInquiryStatus(inquiryId, dto));
     }

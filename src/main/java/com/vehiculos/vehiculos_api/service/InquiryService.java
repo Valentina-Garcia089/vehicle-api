@@ -11,9 +11,9 @@ import org.springframework.data.domain.Pageable;
 public interface InquiryService{
 
     //USER (el userId es mientras lo cambio a autenticación)
-    InquiryResponseDTO createInquiry (InquiryCreateRequestDTO dto, Long userId);
-    Page<InquiryResponseDTO> getAllInquiries (Pageable pageable, Long userId);
-    InquiryResponseDTO getInquiryById (Long inquiryId, Long userId);
+    InquiryResponseDTO createInquiry (InquiryCreateRequestDTO dto);
+    Page<InquiryResponseDTO> getAllInquiries (Pageable pageable);
+    InquiryResponseDTO getInquiryById (Long inquiryId);
 
     //ADMIN
     Page<InquiryAdminResposeDTO> getAllInquiriesAdmin (Pageable pageable);

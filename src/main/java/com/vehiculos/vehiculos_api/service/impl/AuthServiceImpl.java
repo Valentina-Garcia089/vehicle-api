@@ -8,8 +8,10 @@ import com.vehiculos.vehiculos_api.entity.User;
 import com.vehiculos.vehiculos_api.entity.enums.UserRole;
 import com.vehiculos.vehiculos_api.exception.DuplicatedEmailException;
 import com.vehiculos.vehiculos_api.mapper.UserMapper;
+import com.vehiculos.vehiculos_api.security.JwtService;
 import com.vehiculos.vehiculos_api.service.AuthService;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +19,18 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
     private final UserServiceImpl userService;
     private final UserMapper userMapper;
-    //private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
-    public AuthServiceImpl(UserServiceImpl userService, UserMapper userMapper/*,PasswordEncoder passwordEncoder*/) {
+    public AuthServiceImpl(UserServiceImpl userService, UserMapper userMapper,
+                           PasswordEncoder passwordEncoder, JwtService jwtService,
+                           AuthenticationManager authenticationManager) {
         this.userService = userService;
         this.userMapper = userMapper;
-        //this.passwordEncoder = passwordEncoder;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
+        this.authenticationManager = authenticationManager;
     }
 
 
@@ -31,31 +39,33 @@ public class AuthServiceImpl implements AuthService {
             throw new DuplicatedEmailException("Email "+dto.getEmail()+" duplicado");
 
         User user = userMapper.toEntity(dto);
-        //user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setPassword(dto.getPassword());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRol(UserRole.USER);
-        User savedUser = userService.saveUser(user); //REVISAR ESTO PORQUE NO SÉ SI LO QUE RECIBE DEBERÍA SER DE TIPO USER
+        User savedUser = userService.saveUser(user);
 
-        //TODO: generar el token con JWT
+        String token = jwtService.generateToken(savedUser); //generación de token jwt
 
         UserResponseDTO userResponseDTO = userMapper.toResponse(user);
 
-        return new AuthResponse("", userResponseDTO);
+        return new AuthResponse(token, userResponseDTO);
     }
 
 
 
     public AuthResponse login(LoginRequest dto) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        dto.getEmail(),
+                        dto.getPassword()
+                )
+        );
+
+        //flujo de que los datos son correctos:
         User user = userService.getUserByEmail(dto.getEmail());
-
-        /*if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
-            throw new BadCredentialsException("Email o contraseña incorrectos");
-        }*/
-
-        //TODO: generar el token con JWT
+        String token = jwtService.generateToken(user);
 
         UserResponseDTO userResponseDTO = userMapper.toResponse(user);
 
-        return new AuthResponse("", userResponseDTO);
+        return new AuthResponse(token, userResponseDTO);
     }
 }

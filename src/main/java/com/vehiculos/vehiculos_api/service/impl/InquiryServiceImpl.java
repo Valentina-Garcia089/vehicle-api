@@ -11,7 +11,9 @@ import com.vehiculos.vehiculos_api.entity.enums.InquiryStatus;
 import com.vehiculos.vehiculos_api.exception.ResourceNotFoundException;
 import com.vehiculos.vehiculos_api.mapper.InquiryMapper;
 import com.vehiculos.vehiculos_api.repository.InquiryRepository;
+import com.vehiculos.vehiculos_api.repository.UserRepository;
 import com.vehiculos.vehiculos_api.service.InquiryService;
+import com.vehiculos.vehiculos_api.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,8 +23,7 @@ public class InquiryServiceImpl implements InquiryService {
     private final InquiryRepository inquiryRepository;
     private final InquiryMapper inquiryMapper;
 
-    //TODO-CAMBIAR ESTO POR EL TOKEN
-    private final UserServiceImpl userService;
+    private final UserService userService;
     private final VehicleServiceImpl vehicleService;
 
 
@@ -33,11 +34,11 @@ public class InquiryServiceImpl implements InquiryService {
         this.vehicleService = vehicleService;
     }
 
-
     //USER
     //TODO - debe asociarse al contexto del usuario con el contexto de seguridad
-    public InquiryResponseDTO createInquiry (InquiryCreateRequestDTO dto, Long userId){
-        User user = userService.findEntityById(userId);
+    public InquiryResponseDTO createInquiry (InquiryCreateRequestDTO dto){
+        User user = userService.getAuthenticatedUserEntity();
+
         Vehicle vehicle = vehicleService.findEntityById(dto.getVehicleId());
 
         Inquiry inquiry = inquiryMapper.toEntity(dto);
@@ -55,24 +56,24 @@ public class InquiryServiceImpl implements InquiryService {
         TODO - el id del usuario debe obtenerse del contexto de seguridad porque el usuario ya
         está autenticado
     */
-    public Page<InquiryResponseDTO> getAllInquiries (Pageable pageable, Long userId){
-        if (!userService.existsById(userId)) {
-            throw new ResourceNotFoundException("Usuario no encontrado");
-        }
+    public Page<InquiryResponseDTO> getAllInquiries (Pageable pageable){
+        User user = userService.getAuthenticatedUserEntity();
 
-        Page<Inquiry> inquiryPage = inquiryRepository.findAllInquiriesWithVehicle(userId,
-                pageable);
+        Page<Inquiry> inquiryPage = inquiryRepository.findAllInquiriesWithVehicle(
+                user.getId(), pageable);
 
         return inquiryPage.map(inquiryMapper::toResponse);
     }
 
 
-    public InquiryResponseDTO getInquiryById (Long inquiryId, Long userId){
+    public InquiryResponseDTO getInquiryById (Long inquiryId){
+        User user = userService.getAuthenticatedUserEntity();
         Inquiry inquiry = inquiryRepository.findById(inquiryId)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Consulta "+inquiryId+" no encontrada"));
 
-        if(!inquiry.getUser().getId().equals(userId))
+        //si pertenece al usuario del token??
+        if(!inquiry.getUser().getId().equals(user.getId()))
             throw new RuntimeException("No tiene autorización para ver esto");
 
         return inquiryMapper.toResponse(inquiry);

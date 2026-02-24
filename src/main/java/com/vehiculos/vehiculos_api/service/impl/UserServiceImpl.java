@@ -7,6 +7,7 @@ import com.vehiculos.vehiculos_api.exception.ResourceNotFoundException;
 import com.vehiculos.vehiculos_api.mapper.UserMapper;
 import com.vehiculos.vehiculos_api.repository.UserRepository;
 import com.vehiculos.vehiculos_api.service.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +19,13 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
     }
+
+    public User getAuthenticatedUserEntity() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado en la sesión actual"));
+    }
+
 
     //AUTH
 
@@ -44,33 +52,16 @@ public class UserServiceImpl implements UserService {
 
     //USER
 
-    public UserResponseDTO getUserById (Long userId){
-        User user = userRepository.findById(userId)
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("Usuario "+ userId + " no encontrado"));
-
+    public UserResponseDTO getUserById (){
+        User user = getAuthenticatedUserEntity();
         return userMapper.toResponse(user);
     }
 
 
-    public UserResponseDTO updateUser (Long userId, UserUpdateRequestDTO dto){
-        User user = userRepository.findById(userId)
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("Usuario "+ userId + " no encontrado"));
-
+    public UserResponseDTO updateUser (UserUpdateRequestDTO dto){
+        User user = getAuthenticatedUserEntity();
         userMapper.updateEntity(user, dto);
         User updatedUser = userRepository.save(user);
         return userMapper.toResponse(updatedUser);
-    }
-
-
-    //TODO- ELIMINAR ESTO CUANDO SE USE EL TOKEN
-    public User findEntityById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario" +id+ " no encontrado"));
-    }
-
-    public boolean existsById(Long id) {
-        return userRepository.existsById(id);
     }
 }

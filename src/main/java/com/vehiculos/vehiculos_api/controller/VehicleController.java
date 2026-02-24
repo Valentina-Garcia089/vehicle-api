@@ -5,6 +5,7 @@ import com.vehiculos.vehiculos_api.dto.vehicle.VehicleResponseDTO;
 import com.vehiculos.vehiculos_api.dto.vehicle.VehicleSummaryResponseDTO;
 import com.vehiculos.vehiculos_api.dto.vehicle.VehicleUpdateRequestDTO;
 import com.vehiculos.vehiculos_api.service.VehicleService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -55,7 +56,7 @@ public class VehicleController {
 
     @PostMapping
     public ResponseEntity<VehicleResponseDTO> createVehicle(
-            @RequestBody VehicleCreateRequestDTO dto){
+            @Valid @RequestBody VehicleCreateRequestDTO dto){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(vehicleService.createVehicle(dto));
@@ -64,7 +65,7 @@ public class VehicleController {
 
     @PutMapping("/inventory/{vehicleId}")
     public ResponseEntity<VehicleResponseDTO> updateVehicle(
-            @PathVariable Long vehicleId, @RequestBody VehicleUpdateRequestDTO dto){
+            @PathVariable Long vehicleId, @Valid @RequestBody VehicleUpdateRequestDTO dto){
 
         return ResponseEntity.ok(vehicleService.updateVehicle(vehicleId, dto));
     }

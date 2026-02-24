@@ -3,6 +3,7 @@ package com.vehiculos.vehiculos_api.controller;
 import com.vehiculos.vehiculos_api.dto.user.UserResponseDTO;
 import com.vehiculos.vehiculos_api.dto.user.UserUpdateRequestDTO;
 import com.vehiculos.vehiculos_api.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,16 +17,16 @@ public class UserController {
     }
 
 
-    @GetMapping("/{userId}/my-profile")
-    public ResponseEntity<UserResponseDTO> getUserById (@PathVariable Long userId){
-        return ResponseEntity.ok(userService.getUserById(userId));
+    @GetMapping("/my-profile")
+    public ResponseEntity<UserResponseDTO> getUserById (){
+        return ResponseEntity.ok(userService.getUserById());
     }
 
 
-    @PutMapping("/{userId}/my-profile")
+    @PutMapping("/my-profile")
     public ResponseEntity<UserResponseDTO> updateUser (
-            @PathVariable Long userId, @RequestBody UserUpdateRequestDTO dto){
+            @PathVariable Long userId, @Valid @RequestBody UserUpdateRequestDTO dto){
 
-        return ResponseEntity.ok(userService.updateUser(userId, dto));
+        return ResponseEntity.ok(userService.updateUser(dto));
     }
 }
