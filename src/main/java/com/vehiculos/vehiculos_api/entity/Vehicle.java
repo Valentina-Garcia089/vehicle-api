@@ -60,8 +60,19 @@ public class Vehicle {
     @PrePersist
     protected void onCreate() {
         this.fechaPublicacion = LocalDateTime.now();
+
+        if (this.marca != null) {
+            this.marca = this.marca.toUpperCase().trim();
+        }
     }
 
+
+    @PreUpdate
+    private void prepareData() {
+        if (this.marca != null) {
+            this.marca = this.marca.toUpperCase().trim();
+        }
+    }
 
     public Long getId() {
         return id;

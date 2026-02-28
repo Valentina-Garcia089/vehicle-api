@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class VehicleCreateRequestDTO {
@@ -43,7 +42,7 @@ public class VehicleCreateRequestDTO {
     private String imageUrl;
 
     @NotNull
-    private List<String> UrlsGaleria;
+    private List<String> imagenes;
 
 
     public VehicleCreateRequestDTO () {}
@@ -129,11 +128,11 @@ public class VehicleCreateRequestDTO {
         this.imageUrl = imageUrl;
     }
 
-    public List<String> getUrlsGaleria() {
-        return UrlsGaleria;
+    public List<String> getImagenes() {
+        return imagenes;
     }
 
-    public void setUrlsGaleria(List<String> urlsGaleria) {
-        UrlsGaleria = urlsGaleria;
+    public void setUrlsGaleria(List<String> imagenes) {
+        this.imagenes = imagenes;
     }
 }
