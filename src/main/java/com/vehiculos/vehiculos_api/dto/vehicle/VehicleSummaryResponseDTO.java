@@ -12,17 +12,19 @@ public class VehicleSummaryResponseDTO {
     private String color;
     private int year;
     private BigDecimal precio;
+    private BigDecimal kilometraje;
     private VehicleFuel gasolina;
     private String imageUrl;
 
     public VehicleSummaryResponseDTO(Long id, String marca, String modelo, String color, int year,
-                                     BigDecimal precio, VehicleFuel gasolina, String imageUrl) {
+                                     BigDecimal precio, BigDecimal kilometraje, VehicleFuel gasolina, String imageUrl) {
         this.id = id;
         this.marca = marca;
         this.modelo = modelo;
         this.color = color;
         this.year = year;
         this.precio = precio;
+        this.kilometraje = kilometraje;
         this.gasolina = gasolina;
         this.imageUrl = imageUrl;
     }
@@ -58,5 +60,9 @@ public class VehicleSummaryResponseDTO {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public BigDecimal getKilometraje() {
+        return kilometraje;
     }
 }

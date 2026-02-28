@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class VehicleServiceImpl implements VehicleService {
     private final VehicleRepository vehicleRepository;
@@ -27,16 +29,23 @@ public class VehicleServiceImpl implements VehicleService {
 
     //PUBLIC / USER
 
-    public Page<VehicleSummaryResponseDTO> getAvailableVehicles(Pageable pageable){
+    public Page<VehicleSummaryResponseDTO> getAvailableVehicles(
+             Double precioMax,
+             Pageable pageable){
         //no perder paginación
-        Page<Vehicle> vehiclePage = vehicleRepository.findByDisponibleTrue(pageable);
+        Page<Vehicle> vehiclePage = vehicleRepository
+                .findByDisponibleTrueAndPrecioLessThanEqual(precioMax, pageable);
         return vehiclePage.map(vehicleMapper::toSummary);
     }
 
 
-    public Page<VehicleSummaryResponseDTO> getVehiclesByBrand (String marca, Pageable pageable){
-        Page<Vehicle> vehiclePage = vehicleRepository.findByMarcaAndDisponibleTrue(marca,
-                pageable);
+    public Page<VehicleSummaryResponseDTO> getVehiclesByBrand (
+            Double precioMax,
+            List<String> marcas,
+            Pageable pageable){
+        Page<Vehicle> vehiclePage = vehicleRepository
+                .findByDisponibleTrueAndPrecioLessThanEqualAndMarcaIn(
+                        precioMax, marcas, pageable);
         return vehiclePage.map(vehicleMapper::toSummary);
     }
 
@@ -63,8 +72,8 @@ public class VehicleServiceImpl implements VehicleService {
     public VehicleResponseDTO createVehicle(VehicleCreateRequestDTO dto){
         Vehicle vehicle = vehicleMapper.toEntity(dto);
 
-        if (dto.getUrlsGaleria() != null) {
-            dto.getUrlsGaleria().forEach(url -> {
+        if (dto.getImagenes() != null) {
+            dto.getImagenes().forEach(url -> {
                 VehicleImage img = new VehicleImage();
                 img.setImageUrl(url);
                 vehicle.addImage(img); // Esto conecta ambos objetos

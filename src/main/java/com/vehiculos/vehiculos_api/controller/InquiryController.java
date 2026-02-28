@@ -9,6 +9,7 @@ import com.vehiculos.vehiculos_api.service.InquiryService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,8 @@ public class InquiryController {
     //USER
 
     @GetMapping("/users/my-inquiries")
-    public ResponseEntity<Page<InquiryResponseDTO>> getAllInquiries (Pageable pageable){
+    public ResponseEntity<Page<InquiryResponseDTO>> getAllInquiries (
+            @PageableDefault(size = 6) Pageable pageable){
         return ResponseEntity.ok(inquiryService.getAllInquiries(pageable));
     }
 
@@ -54,7 +56,8 @@ public class InquiryController {
 
     @GetMapping("/admin")
     public ResponseEntity<Page<InquiryAdminResposeDTO>> getInquiriesAdmin (
-            @RequestParam (required = false) InquiryStatus estado ,Pageable pageable){
+            @RequestParam (required = false) InquiryStatus estado ,
+            @PageableDefault(size = 6) Pageable pageable){
 
         if(estado != null)
             return ResponseEntity.ok(inquiryService.getInquiriesByStatus(estado, pageable));

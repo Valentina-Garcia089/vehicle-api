@@ -8,9 +8,12 @@ import com.vehiculos.vehiculos_api.service.VehicleService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/vehicles")
@@ -26,12 +29,14 @@ public class VehicleController {
 
     @GetMapping
     public ResponseEntity<Page<VehicleSummaryResponseDTO>> getAllVehicles (
-            @RequestParam(required = false) String marca, Pageable pageable){
+            @RequestParam(required = false) List<String> marcas,
+            @RequestParam(defaultValue = "700000000") Double precioMax,
+            @PageableDefault(size = 12) Pageable pageable){
 
-        if(marca != null && !marca.isEmpty())
-            return ResponseEntity.ok(vehicleService.getVehiclesByBrand(marca, pageable));
+        if(marcas != null && !marcas.isEmpty())
+            return ResponseEntity.ok(vehicleService.getVehiclesByBrand(precioMax, marcas, pageable));
 
-        return ResponseEntity.ok(vehicleService.getAvailableVehicles(pageable));
+        return ResponseEntity.ok(vehicleService.getAvailableVehicles(precioMax, pageable));
     }
 
 
@@ -50,7 +55,7 @@ public class VehicleController {
 
     @GetMapping("/inventory")
     public ResponseEntity<Page<VehicleSummaryResponseDTO>> getAllVehiclesInventory(
-            Pageable pageable) {
+            @PageableDefault(size = 6) Pageable pageable) {
         return ResponseEntity.ok(vehicleService.getAllVehiclesInventory(pageable));
     }
 
@@ -63,7 +68,7 @@ public class VehicleController {
     }
 
 
-    @PutMapping("/inventory/{vehicleId}")
+    @PutMapping("/{vehicleId}")
     public ResponseEntity<VehicleResponseDTO> updateVehicle(
             @PathVariable Long vehicleId, @Valid @RequestBody VehicleUpdateRequestDTO dto){
 
@@ -71,7 +76,7 @@ public class VehicleController {
     }
 
 
-    @DeleteMapping("/inventory/{vehicleId}")
+    @DeleteMapping("/{vehicleId}")
     public ResponseEntity<Void> deleteVehicle(@PathVariable Long vehicleId){
         vehicleService.deleteVehicle(vehicleId);
         return ResponseEntity.noContent().build();
