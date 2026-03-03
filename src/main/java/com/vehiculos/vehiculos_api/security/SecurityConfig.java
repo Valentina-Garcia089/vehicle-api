@@ -80,7 +80,8 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:5173",
-                "https://vehiculos-front.vercel.app")); //react
+                "https://vehiculos-front.vercel.app",
+                "https://vehiculos-front-98r20qu43-valentina-garcia089s-projects.vercel.app")); //react
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
