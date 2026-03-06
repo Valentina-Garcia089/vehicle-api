@@ -132,7 +132,7 @@ public class VehicleCreateRequestDTO {
         return imagenes;
     }
 
-    public void setUrlsGaleria(List<String> imagenes) {
+    public void setImagenes(List<String> imagenes) {
         this.imagenes = imagenes;
     }
 }
