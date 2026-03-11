@@ -26,6 +26,10 @@ public class VehicleController {
 
 
     //PUBLIC / USER
+    @GetMapping("/health")
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.ok("ALIVE");
+    }
 
     @GetMapping
     public ResponseEntity<Page<VehicleSummaryResponseDTO>> getAllVehicles (
